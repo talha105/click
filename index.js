@@ -11,7 +11,10 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
-const io = require("socket.io")(server);
+const io = require("socket.io")(server,{cors:{
+        origin: "https://click-server105.herokuapp.com",
+        methods: ["GET", "POST"]
+}});
 
 // const io = require("socket.io")(server, {
 //     cors: {
