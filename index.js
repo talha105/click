@@ -5,8 +5,11 @@ var routes = require('./routes/routes');
 const path = require("path");
 var cors = require('cors');
 const fs = require("fs");
-const http = require('http');
-const server = http.Server(app);
+// const http = require('http');
+// const server = http.Server(app);
+const { Server } = require('ws');
+
+const wss = new Server({ server:app });
 
 app.use(cors());
 app.options('*', cors());
@@ -20,12 +23,12 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 //     }
 // });
 
-const io = require("socket.io")(server, {
-    cors: {
-        origin: "https://click-server105.herokuapp.com",
-        methods: ["GET", "POST"]
-    }
-});
+// const io = require("socket.io")(server, {
+//     cors: {
+//         origin: "https://click-server105.herokuapp.com",
+//         methods: ["GET", "POST"]
+//     }
+// });
 
 const port = process.env.PORT || 5000;
 
@@ -45,8 +48,8 @@ app.get('/', (req, res) => {
     })
 });
 
-require('./routes/socket_routes.js')(io);
+require('./routes/socket_routes.js')(wss);
 
-server.listen(port, () => {
+app.listen(port, () => {
     console.log(`started on port: ${port}`);
 });

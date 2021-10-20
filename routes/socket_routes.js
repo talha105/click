@@ -126,5 +126,6 @@ module.exports = function(io) {
                 })
             })
         })
+        io.on('close', () => console.log('Client disconnected'));
     });
 }
