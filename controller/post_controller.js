@@ -368,27 +368,3 @@ exports.getRandomTeamMates = async(req, res) => {
         });
     }
 }
-
-exports.deleteComment = async(req, res) => {
-    try {
-        var userId = await commonServices.getUserIdByToken(req, res);
-        postService.deleteComment(userId, req.body, (error, result) => {
-            if (error) return res.json({
-                status: 0,
-                msg: error
-            })
-
-            return res.json({
-                status: 1,
-                data: result,
-                msg: "Data has been deleted successfully."
-            })
-        })
-    } catch (e) {
-        console.log(e);
-        return res.json({
-            status: 0,
-            msg: e
-        });
-    }
-}

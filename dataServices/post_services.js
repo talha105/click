@@ -6,7 +6,6 @@ var formidable = require('formidable');
 const fs = require("fs");
 const path = require("path");
 var asyncForEach = require('async-foreach').forEach;
-const { off } = require('../config');
 
 exports.getPostList = async(userId, cb) => {
     sql.query(`select * from post where sender_id = '${userId}' and is_deleted = 0 order by post_id desc`, (error, result) => {
@@ -115,16 +114,6 @@ exports.comment = async(userId, body, cb) => {
     })
 }
 
-exports.deleteComment = async(userId, body, cb) => {
-    sql.query(`delete from comment where user_id = '${userId}' and post_id = '${body.postId}' and comment_id = '${commentId}'`, val, (error, result) => {
-        if (error) return cb(error);
-        // sql.query(`select c.*, u.user_image, u.first_name, u.last_name from comment c left join users u on c.user_id = u.user_id where c.post_id = '${body.postId}' and is_deleted = 0`, (error, commentResult) => {
-        //     if (error) return cb(error);
-        return cb(null, result);
-        // })
-    })
-}
-
 exports.like = async(userId, postId, cb) => {
 
     sql.query(`select * from likes where post_id = '${postId}' and user_id='${userId}'`, (error, likeResult) => {
@@ -140,8 +129,7 @@ exports.like = async(userId, postId, cb) => {
                 })
             })
         } else {
-            // return cb("Already liked", null);
-            sql.query(`delete from likes where post_id = '${postId}' and user_id = '${userId}'`, (error, unlikeResult) => {
+             sql.query(`delete from likes where post_id = '${postId}' and user_id = '${userId}'`, (error, unlikeResult) => {
                 if (error) return cb(error, null);
                 sql.query(`select * from likes where post_id = '${postId}'`, (error, likeResults) => {
                     if (error) return cb(error);

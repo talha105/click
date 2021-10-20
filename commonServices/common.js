@@ -52,7 +52,7 @@ common.getUserIdByToken = function(req, res) {
     return new Promise(resolve => {
         var token = req.headers.authorization;
         sql.query(`select * from session where session = '${token}'`, (error, sessionResult) => {
-            console.log(error);
+            console.log(error, "aaaaaaaaaaaaaa");
             if (error) return res.json({
                 status: 0,
                 msg: "Invalid session token."
@@ -192,7 +192,7 @@ common.changePasswordEmail = function(email, code) {
                 pass: 'geeks&bachelors',
             },
         });
-        var html = "<P>Please change your password by click on this link</p><br> <a> http://localhost:4200/verifyForgotPassword?code=" + code + "</a>"
+        var html = "<P>Please change your password by click on this link</p><br> <a> https://webprojectmockup.com/custom/socialappangular/verifyForgotPassword?code=" + code + "</a>"
         transporter.sendMail({
             from: '"minhaj123technado@gmail.com',
             to: email,

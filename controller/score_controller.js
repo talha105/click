@@ -52,6 +52,7 @@ exports.getSports = async(req, res) => {
     };
 
     axios.request(options).then(function(response) {
+        console.log(response.data);
         res.json({
             status: 1,
             data: response.data,
@@ -93,23 +94,13 @@ exports.getSportDetailsById = async(req, res) => {
     var date = req.body.date;
     var sportId = req.body.sportId;
     var date = req.body.date;
-    // var options = {
-    //     method: 'GET',
-    //     url: `https://therundown-therundown-v1.p.rapidapi.com/sports/${sportId}/events/${date}`,
-    //     params: {include: 'scores', offset: '0'},
-    //     headers: {
-    //       'x-rapidapi-key': '32e960d466msh7ef451276cc22d7p195e87jsn4a64b9374c58',
-    //       'x-rapidapi-host': 'therundown-therundown-v1.p.rapidapi.com'
-    //     }
-    //   };
-
     var options = {
         method: 'GET',
         url: `https://therundown-therundown-v1.p.rapidapi.com/sports/${sportId}/events/${date}`,
         params: {include: 'scores', offset: '0'},
         headers: {
-          'x-rapidapi-host': 'therundown-therundown-v1.p.rapidapi.com',
-          'x-rapidapi-key': '32e960d466msh7ef451276cc22d7p195e87jsn4a64b9374c58'
+          'x-rapidapi-key': '32e960d466msh7ef451276cc22d7p195e87jsn4a64b9374c58',
+          'x-rapidapi-host': 'therundown-therundown-v1.p.rapidapi.com'
         }
       };
       

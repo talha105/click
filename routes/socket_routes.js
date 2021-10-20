@@ -11,7 +11,7 @@ module.exports = function(io) {
             var userName = await commonServices.getuserNameById(userId);
             if (userId) {
                 sql.query(`select * from user_socket where user_id = '${userId}'`, (error, res) => {
-
+                    console.log(error, 'aaaaaaaaaaaaaaaaaaaaa');
                     if (res.length > 0) {
                         sql.query(`delete from user_socket where user_id = '${userId}'`, (error, res) => {
 
@@ -42,20 +42,26 @@ module.exports = function(io) {
         });
 
         socket.on("sendGroupMsg", async(data) => {
+            console.log(data,"dddddddddddddddddddddddd");
             var userId = await commonServices.getIdByTokenSocket(data.token);
+            console.log(userId,"uuuuuuuuuuuuuuuuu");
             if (userId) {
                 sql.query(`insert into group_msgs (sender_id, msg) values ('${userId}','${data.msg}')`, (error, GroupMsgResult) => {
+                    console.log(error,"111111111111111")
                     if (error) socket.emit('getGroupMsg', {
                         status: 0,
                         msg: "Failed to insert in database."
                     })
 
-                    sql.query(`select gc.*, u.user_image as user_image, u.first_name, u.last_name from group_msgs as gc left join users u on u.user_id = gc.sender_id where gc.is_deleted = 0 limit 50`, (error, groupMsgData) => {
+                    sql.query(`select gc.*, u.user_image as user_image, u.first_name, u.last_name from group_msgs as gc left join users u on u.user_id = gc.sender_id where gc.is_deleted = 0`, (error, groupMsgData) => {
+                        console.log(error,"22222222222222")
                         if (error) socket.emit('getGroupMsg', {
                             status: 0,
                             msg: "Failed to get message data."
                         })
-
+                        
+                        console.log(groupMsgData,"ggggggggggggggggg");
+                        
                         io.emit('getGroupMsg', {
                             status: 1,
                             msg: "Successfully get messages data.",

@@ -342,8 +342,6 @@ exports.getAllUserForAdmin = async(req, res) => {
 exports.otp = async(req, res) => {
     try {
         // var userId = await commonServices.checkIsSuperAdminThenReturnId(req, res);
-        console.log("working...");
-        console.log(req.body);
         userService.otp(req, (error, result) => {
             if (error) return res.json({
                 status: 0,

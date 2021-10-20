@@ -6,6 +6,7 @@ var accountSid = 'AC2d01f1aeca08c4965967d0094ebfaa45';
 var authToken = '48792a0d619ad7dceb283e6d9a17f9d1';
 const client = require('twilio')(accountSid, authToken);
 
+
 exports.signup = async(body, cb) => {
     var email = body.email.toLowerCase();
     sql.query(`select * from users where email = '${email}'`, (error, userData) => {
@@ -145,7 +146,7 @@ exports.socialSignInSignUp = async(body, cb) => {
             sql.query("insert into users (first_name, last_name, email, password, google_id, login_type) values (?,?,?,?,?,?)", values, (error, result) => {
                 if (error) return cb(error, null);
                 var token = jwt.sign({ userId: result.insertId }, 'todo-app-super-shared-secret', { expiresIn: '1h' }, { algorithm: 'RS256' });
-                var sessionValue = [
+                 var sessionValue = [
                     result.insertId,
                     token
                 ];
@@ -224,7 +225,6 @@ exports.updateUserRollBySuperAdmin = async(body, cb) => {
 
 exports.otp = async (req, cb) =>{
     try{
-        console.log(req.body);
         if (req.body.phonenumber) {
         client
         .verify
